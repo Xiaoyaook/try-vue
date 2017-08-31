@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-简易留言板</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        .hidden-icon {
+            visibility: hidden;
+        }
+        .hover-icon:hover .hidden-icon {
+            visibility: visible;
+        }
+        .active {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="title has-text-centered">Vue</h1>
+        <h2 class="subtitle has-text-centered">简易留言板</h2>
+    </header>
+
+    <div id="app">
+        <div class="columns">
+            <div class="column is-6 is-offset-3">
+                <div class="field">
+                    <div class="control">
+                        <input autofocus="autofocus" v-model="newMsg" class="input is-primary" type="text" placeholder="请输入留言" @keyup.enter="addMsg">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button @click="addMsg" class="button is-primary is-fullwidth">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column is-6 is-offset-3">
+                <div v-bind:class="{ active: isActive }" class="notification is-danger">
+                    你需要输入一些东西
+                </div>
+
+                <div class="box">
+                    <p class="title is-5">留言列表</p>
+                    <ul>
+                        <li v-for="msg in msgs" class="control has-icons-right hover-icon">
+                            {{ msg.title }}
+                            <a class="icon is-right delete hidden-icon"></a>
+                        </li>
+                    </ul>
+                </div>
+                <a @click="removeMsgs" v-show="msgs.length > 0" class="button is-danger is-fullwidth">清空留言</a>
+            </div>
+        </div>
+    </div>
+    
+<script src="https://unpkg.com/vue"></script>
+<script>
+    var msgStorage = {
+        save: function(msgs) {
+            localStorage.setItem("data", JSON.stringify(msgs))
+        },
+        fetch: function() {
+            var msgs = JSON.parse(localStorage.getItem("data") || "[]")
+            msgs.forEach((msg, index) => {
+              msg.id = index
+            })
+            msgStorage.uid = msgs.length
+            return msgs
+        }
+    }
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msgs: msgStorage.fetch(),
+            newMsg: '',
+            isActive: true
+        },
+
+        watch: { 
+            msgs: {
+                handler: function(msgs) {
+                    msgStorage.save(msgs)
+                },
+                deep: true
+            }
+        },
+        methods: {
+            addMsg: function() {
+                var value = this.newMsg && this.newMsg.trim()
+                if (!value) {
+                    this.isActive = false
+                    return 
+                } else {
+                    this.isActive = true
+                }
+                this.msgs.push({
+                    id: msgStorage.uid++,
+                    title: value
+                })
+                this.newMsg = ''
+            },
+            removeMsgs: function() {
+                msgStorage.uid = 0;
+                return this.msgs = [];
+            }
+        }
+    })
+</script>  
+</body>
+</html>  
