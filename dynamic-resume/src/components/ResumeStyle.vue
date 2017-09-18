@@ -1,5 +1,5 @@
 <template>
-  <div class="lf-style">
+  <div class="lf-style" ref="container">
     <pre v-html="highlightedCode"></pre>
     <div v-html="changeStyle"></div>
   </div>
@@ -15,6 +15,11 @@
       },
       changeStyle: function () {
         return '<style>' + this.nowStyle + '</style>'
+      },
+      methods: {
+        goBottom: function () {
+          this.$refs.container.scrollTop = 100000
+        }
       }
     }
   }

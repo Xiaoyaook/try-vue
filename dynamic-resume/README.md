@@ -1,21 +1,10 @@
-# dynamic-resume
+用vue制作一个会动的简历
 
-> A Vue.js project
+> 参考自[方应航](https://github.com/jirengu-inc/animating-resume)
 
-## Build Setup
+代码高亮用Prism.js,Markdown转HTML用marked.js
+有一个坑是``里的字符要顶格写,不然marked无法正确解析
 
-``` bash
-# install dependencies
-npm install
+有个问题是,为何用refs调用子组件的方法,显示
+"TypeError: Cannot read property 'goBottom' of undefined"
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
