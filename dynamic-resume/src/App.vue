@@ -28,6 +28,7 @@
 
 * 前端开发
 * Python开发
+* Java开发
 
 工作经历
 ----
@@ -36,13 +37,6 @@
 2. 占位...
 3. 占位...
 4. 占位...
-
-链接
-----
-
-* [方应航的文章](https://www.zhihu.com/people/zhihusucks/pins/posts)
-
-> 如果你喜欢这个效果，Fork [方应航](https://github.com/jirengu-inc/animating-resume)，打造你自己的简历！
 
 `,
         resumeStyle: [`
