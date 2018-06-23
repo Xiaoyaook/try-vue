@@ -26,18 +26,23 @@ export default {
       status: ''
     }
   },
+  created () {
+    this.getOrderDetail()
+  },
   methods: {
     getOrderDetail () {
-      this.$api.get('/order/detail', {
-        orderId: this.id
-      }, r => {
+      this.$api.get('/order/detail?orderId=' + this.id, null, r => {
         if (r.code === 0) {
           this.render(r.data)
         } else {
           console.log(r.msg)
         }
       }, r => {
-        console.log('客户端请求有误')
+        if (r.code === 0) {
+          this.render(r.data)
+        } else {
+          console.log(r.msg)
+        }
       })
     },
     render (detail) {

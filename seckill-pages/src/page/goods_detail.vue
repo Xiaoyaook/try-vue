@@ -18,7 +18,7 @@
       <span class="secikillTip" v-else>秒杀已经结束</span>
     </div>
     <div class="seckillZone">
-      <img id="verifyCodeImg" width="80" height="32"  v-show="seckillStart" :src="verifyImageSrc" @click="refreshVerifyCode"/>
+      <img id="verifyCodeImg" width="80" height="32"  v-show="seckillStart" :src="verifyImageSrc" @click="getVerifyCode"/>
       <input id="verifyCode" v-model="verifyNum" v-show="seckillStart"/>
       <button type="button" id="buyButton" @click="getSeckillPath" :disabled="!seckillStart">立即秒杀</button>
     </div>
@@ -31,7 +31,7 @@ export default {
     return {
       goods: {},
       user: {},
-      remainSeconds: 100,
+      remainSeconds: 0,
       id: this.$route.params.id,
       verifyImageSrc: '',
       verifyNum: 0,
@@ -57,36 +57,37 @@ export default {
       })
     },
     countDown () {
+      let timeout
       if (this.remainSeconds > 0) { // 秒杀还未开始
         const that = this
-        setTimeout(function () {
+        timeout = setTimeout(function () {
           that.remainSeconds = that.remainSeconds - 1
           that.countDown()
         }, 1000)
       } else if (this.remainSeconds === 0) { // 秒杀进行中
-        this.getVerifyCode()
         this.seckillStart = true
+        if (timeout) {
+          clearTimeout(timeout)
+        }
+        this.getVerifyCode()
       } else { // 秒杀结束
         this.seckillStart = false
       }
     },
     getSeckillPath () {
-      this.$api.get('seckill/path', {
-        goodsId: this.goods.id,
-        verifyCode: this.verifyNum
-      }, r => {
+      this.$api.get('seckill/path?goodsId=' + this.goods.id + '&verifyCode=' + this.verifyNum, null, r => {
         if (r.code === 0) {
           let path = r.data
           this.doSeckill(path)
         } else {
-          console.log('get path fail')
+          console.log(r.code + r.msg)
         }
       }, r => {
         if (r.code === 0) {
           let path = r.data
           this.doSeckill(path)
         } else {
-          console.log('get path fail')
+          console.log(r.code + r.msg)
         }
       })
     },
@@ -97,20 +98,18 @@ export default {
         if (r.code === 0) {
           this.getSeckillResult(this.goods.id)
         } else {
-          console.log('do Seckill fail')
+          console.log(r.code + r.msg)
         }
       }, r => {
         if (r.code === 0) {
           this.getSeckillResult(this.goods.id)
         } else {
-          console.log('do Seckill fail')
+          console.log(r.code + r.msg)
         }
       })
     },
     getSeckillResult (goodsId) {
-      this.$api.get('seckill/result', {
-        goodsId: goodsId
-      }, r => {
+      this.$api.get('seckill/result?goodsId=' + goodsId, null, r => {
         if (r.code === 0) {
           let result = r.data
           if (result < 0) {
@@ -131,18 +130,13 @@ export default {
       })
     },
     getVerifyCode () {
-      this.$api.get('seckill/verifyCode?goodsId=' + this.goods.id, null, r => {
-        this.verifyImageSrc = r.data
-      }, r => {
-        this.verifyImageSrc = r.data
-      })
-    },
-    refreshVerifyCode () {
-      this.$api.get('seckill/verifyCode?goodsId=' + this.goods.id + new Date().getTime(), null, r => {
-        this.verifyImageSrc = r.data
-      }, r => {
-        this.verifyImageSrc = r.data
-      })
+      // 由于跨域问题,这里写死,部署后可以不需要这部分
+      this.verifyImageSrc = 'http://localhost:8080/seckill/verifyCode?goodsId=' + this.id
+      //      this.$api.get('seckill/verifyCode?goodsId=' + this.id, null, r => {
+      //          this.verifyImageSrc = r.data
+      //      }, r => {
+      //        this.verifyImageSrc = r.data
+      //      })
     }
   }
 }

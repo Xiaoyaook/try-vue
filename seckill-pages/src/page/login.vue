@@ -43,8 +43,8 @@ export default {
       }, r => {
         if (r.code === 0) {
           console.log('登录成功')
-          // 这里直接跳转,如果没有Cookie我们等下去设置一个全局SetCookie方法
-          // this.$router.push('/')
+          // 这里直接跳转,如果没有Cookie我们等下去设置一个全局SetCookie方法(设置axios后有cookie)
+          this.$router.push('/')
         } else {
           console.log('登录失败')
         }
