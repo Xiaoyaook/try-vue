@@ -20,7 +20,7 @@
     <div class="seckillZone">
       <img id="verifyCodeImg" width="80" height="32"  v-show="seckillStart" :src="verifyImageSrc" @click="getVerifyCode"/>
       <input id="verifyCode" v-model="verifyNum" v-show="seckillStart"/>
-      <button type="button" id="buyButton" @click="getSeckillPath" :disabled="!seckillStart">立即秒杀</button>
+      <button type="button" id="buyButton" @click="getSeckillPath" :disabled="!seckillStart && !buttonDisabled">立即秒杀</button>
     </div>
   </div>
 </template>
@@ -35,7 +35,8 @@ export default {
       id: this.$route.params.id,
       verifyImageSrc: '',
       verifyNum: 0,
-      seckillStart: false
+      seckillStart: false,
+      buttonDisabled: false
     }
   },
   created () {
@@ -92,6 +93,12 @@ export default {
       })
     },
     doSeckill (path) {
+      this.buttonDisabled = true // 控制抢购按钮是否允许点击
+
+      // 前端部分进行一部分请求的过滤，每5秒只允许点击一次抢购按钮
+      setTimeout(() => {
+        this.buttonDisabled = false
+      }, 5000)
       this.$api.post('seckill/' + path + '/do_seckill', {
         goodsId: this.goods.id
       }, r => {
