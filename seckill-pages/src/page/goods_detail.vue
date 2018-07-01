@@ -31,7 +31,7 @@ export default {
     return {
       goods: {},
       user: {},
-      remainSeconds: 0,
+      remainSeconds: 1, // 这里初始化设置为1,猜想是因为在created之后ajax还没拿到数据，而已经开始执行mounted,故推迟一下等待数据获取
       id: this.$route.params.id,
       verifyImageSrc: '',
       verifyNum: 0,

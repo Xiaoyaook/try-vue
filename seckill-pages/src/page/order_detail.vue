@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     getOrderDetail () {
-      this.$api.get('/order/detail?orderId=' + this.id, null, r => {
+      this.$api.get('/order/detail/' + this.id, null, r => {
         if (r.code === 0) {
           this.render(r.data)
         } else {

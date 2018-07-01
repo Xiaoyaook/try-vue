@@ -3,35 +3,12 @@ import Qs from 'qs'
 let root = 'http://localhost:8080'
 // 引用axios
 let axios = require('axios')
-// // 自定义判断元素类型JS
-// function toType (obj) {
-//   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
-// }
-// // 参数过滤函数
-// function filterNull (o) {
-//   for (let key in o) {
-//     if (o[key] === null) {
-//       delete o[key]
-//     }
-//     if (toType(o[key]) === 'string') {
-//       o[key] = o[key].trim()
-//     } else if (toType(o[key]) === 'object') {
-//       o[key] = filterNull(o[key])
-//     } else if (toType(o[key]) === 'array') {
-//       o[key] = filterNull(o[key])
-//     }
-//   }
-//   return o
-// }
 
 /*
   接口处理函数
 */
 
 function apiAxios (method, url, params, success, failure) {
-  // if (params) {
-  //   params = filterNull(params)
-  // }
   let data = Qs.stringify(params)
   axios({
     method: method,
