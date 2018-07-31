@@ -4,7 +4,7 @@
   <div class="headpic">
     <div class="container headtitle full">
       <div class="title">
-        <h1 href="/blog">Chunibyo</h1>
+        <h1 href="/blog">Xiaoyaook</h1>
       </div>
     </div>
   </div>
@@ -13,10 +13,10 @@
       <div class="main-full">
         <div class="full-content">
           <header>
-            <h2>{{article.title}}</h2>
-            <p class="byline">by JhonXY
+            <h3>{{article.title}}</h3>
+            <p class="byline">by Xiaoyaook
               <span class="sep">|</span>
-              <span class="date">{{article.createDate}}</span>
+              <span class="date">{{article.createBy}}</span>
             </p>
           </header>
           <div class="post-content wysiwyg" v-html="article.content">
@@ -45,29 +45,42 @@ export default {
   },
   data() {
     return {
-      article: ''
-    }
-  },
-  methods: {
-    init() {
-      let articleId = this.$route.query.articleId
-      let param = {
-        articleId: articleId
-      }
-      axios.get("/api/articleDetial", {
-        params: param
-      }).then((result) => {
-        let res = result.data
-        if (res.status == "0") {
-          this.article = res.result
-        } else {
-          this.article = ''
-        }
-      })
+      article: {}
     }
   },
   mounted() {
-    this.init()
+    this.getArticle()
+  },
+  methods: {
+//    init() {
+//      let articleId = this.$route.query.articleId
+//      let param = {
+//        articleId: articleId
+//      }
+//      axios.get("/api/articleDetial", {
+//        params: param
+//      }).then((result) => {
+//        let res = result.data
+//        if (res.status == "0") {
+//          this.article = res.result
+//        } else {
+//          this.article = ''
+//        }
+//      })
+//    }
+    getArticle () {
+      let articleId = this.$route.params.id
+      let params = {
+        id: articleId
+      }
+      this.$api.getArticleById(params).then(res => {
+        if (res.code === 0) {
+          this.article = res.data
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+    }
   }
 }
 </script>

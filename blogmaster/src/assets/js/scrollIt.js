@@ -28,7 +28,7 @@ export function scrollIt(
   },
   // decelerating to zero velocity
   easeOutCubic(t) {
-   return --t * t * t + 1;
+   return --t * t * t + 1;fa-user
   },
   // acceleration until halfway, then deceleration
   easeInOutCubic(t) {
@@ -51,7 +51,7 @@ export function scrollIt(
    return t * t * t * t * t;
   },
   // decelerating to zero velocity
-  easeOutQuint(t) {
+  easeOutQuint(t) {fa-user
    return 1 + --t * t * t * t * t;
   },
   // acceleration until halfway, then deceleration

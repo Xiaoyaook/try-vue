@@ -4,7 +4,7 @@
       <run-time></run-time>
       <p>Made
         <i class="fa fa-heart"></i>
-        By JhonXY.
+        By Xiaoyaook.
       </p>
     </div>
   </div>

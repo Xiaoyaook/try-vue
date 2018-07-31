@@ -6,8 +6,9 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import mavonEditor from 'mavon-editor'
+import api from './http/index'
 import 'mavon-editor/dist/css/index.css'
-
+// 全局引入css文件
 import '@/assets/css/container.css'
 import '@/assets/css/header.css'
 import '@/assets/css/article.css'
@@ -16,6 +17,9 @@ import '@/assets/css/blog.css'
 
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
+
+// 可以直接在 Vue 原型上调用 $api
+Vue.use(api)
 
 Vue.prototype.setCookie = (c_name, value, expiredays) => {
   var exdate = new Date();　　　　

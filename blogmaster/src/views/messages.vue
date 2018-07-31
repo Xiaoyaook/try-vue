@@ -4,7 +4,7 @@
     <div class="headpic">
       <div class="container headtitle full">
         <div class="title">
-          <h1 href="/blog">Chunibyo</h1>
+          <h1 href="/blog">Xiaoyaook</h1>
         </div>
       </div>
     </div>

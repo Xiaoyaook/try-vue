@@ -4,61 +4,61 @@
     <div class="headpic">
       <div class="container headtitle">
         <div class="title">
-          <h1 href="/blog">Chunibyo</h1>
+          <h1 href="/blog">Xiaoyaook</h1>
         </div>
       </div>
     </div>
     <div class="container content">
       <div class="list">
         <div class="main">
-          <article-list :tagSelect="tag"></article-list>
+          <article-list></article-list>
         </div>
         <div class="side">
           <side-section>
             <div slot="sidecontent">
               <h3>
-                <a href="">JhonXY</a>
-                <span class="cat-desc">Just A Coding Peasant</span>
+                <a href="">Xiaoyaook</a>
+                <span class="cat-desc">初心者</span>
               </h3>
               <div class="pres">
               <a href="" class="pic">
-              <img src="/static/card.jpg" alt="我的头像">
+              <img src="/static/protrait.jpg" alt="我的头像">
               </a>
               <a href="" class="detail">
                 <span class="item-info">
                   <span class="item-title">XY</span>
-                  <span class="item-desc">2017</span>
+                  <span class="item-desc">2018</span>
                 </span>
               </a>
               </div>
               <div class="social">
                 <a data-balloon="微博" href="http://weibo.com/" rel="nofollow" class="icon"><i class="fa fa-weibo" style="background-color: #dd4b39"></i></a>
-                <a data-balloon="github" href="https://github.com/JhonXY" rel="nofollow" class="icon"><i class="fa fa-github" style="background-color: #55acee;"></i></a>
+                <a data-balloon="github" href="https://github.com/Xiaoyaook" rel="nofollow" class="icon"><i class="fa fa-github" style="background-color: #55acee;"></i></a>
                 <el-popover
-                  ref="youxiang"
+                  ref="email"
                   placement="bottom"
                   title="我的邮箱"
                   width="50"
                   trigger="hover"
-                  content="1076849402@qq.com">
+                  content="599319698@qq.com">
                 </el-popover>
-                <a data-balloon="邮箱" href="javascript:;" rel="nofollow" class="icon" v-popover:youxiang><i class="fa fa-envelope" style="background-color: #3b5998"></i></a>
+                <a data-balloon="邮箱" href="javascript:;" rel="nofollow" class="icon" v-popover:email><i class="fa fa-envelope" style="background-color: #3b5998"></i></a>
                 <el-popover
-                  ref="jianli"
+                  ref="resume"
                   placement="bottom"
                   title="我的简历"
                   width="50"
                   trigger="hover"
                   content="暂无内容">
                 </el-popover>
-                <a data-balloon="微博" href="javascript:;" rel="nofollow" class="icon" v-popover:jianli><i class="fa fa-address-card-o" style="background-color: #80b953"></i></a>
+                <a data-balloon="简历" href="javascript:;" rel="nofollow" class="icon" v-popover:resume><i class="fa fa-address-card-o" style="background-color: #80b953"></i></a>
               </div>
-            </div>
+            </div>JhonXY
           </side-section>
           <side-section>
             <div slot="sidecontent">
               <li class="message-title">留言</li>
-              <li class="message-item" v-for="item in messagesList">
+              <li class="message-item" v-for="item in commentsList">
                 <router-link to="/messages" class="message-from">
                   <div class="message-content">
                     <span class="l_title">
@@ -82,7 +82,7 @@
             <div slot="sidecontent">
               <li class="message-title">标签</li>
               <div class="tags">
-                <span class="tags-item" v-for="item in tags"><a href="#" @click="getOne(item.tag)">{{item.tag}}</a></span>
+                <span class="tags-item" v-for="item in tags"><a href="#" @click="getOne(item.tag)">{{item.name}}</a></span>
               </div>
             </div>
           </side-section>
@@ -114,13 +114,14 @@ export default {
   data() {
     return {
       tags: [],
-      messagesList: [],
+      commentsList: [],
       tag: '',
-      limit: 8 // 用于限制首页显示留言量
+//      limit: 8 // 用于限制首页显示留言量
     }
   },
   mounted() {
-    this.getMessages()
+    this.getComments()
+    this.getCategoryList()
   },
   methods: {
     // 利用监听获取子组件数据，并传给另外的子组件
@@ -133,36 +134,54 @@ export default {
     getOne(msg) {
       this.tag = msg
     },
-    getMessages() {
-      axios.get("/api/messageList", {
-        params: {
-          limit: this.limit
+    getComments () {
+      this.$api.listAllComment().then(res => {
+        if (res.code === 0) {
+          this.commentsList = res.data
         }
-      }).then((result) => {
-        let res = result.data
-        this.messagesList = res.result
+      }).catch(error => {
+        console.log(error)
       })
     },
-    getTagList() {
-      var param = {
-        page: this.page,
-        pageSize: this.pageSize,
-        tag: this.tagSelect
-      }
-      axios.get("/api/tagsDetial", {
-        params: param
-      }).then((result) => {
-        let res = result.data
-        if (res.status == "0") {
-          if (res.result.count == 0) {
-            this.page -= 1
-            return
-          } else {
-            this.list = res.result.list
-          }
-        } else {
-          this.list = []
+//    getMessages() {
+//      axios.get("/api/messageList", {
+//        params: {
+//          limit: this.limit
+//        }
+//      }).then((result) => {
+//        let res = result.data
+//        this.messagesList = res.result
+//      })
+//    },
+//    getTagList() {
+//      var param = {
+//        page: this.page,
+//        pageSize: this.pageSize,
+//        tag: this.tagSelect
+//      }
+//      axios.get("/api/tagsDetial", {
+//        params: param
+//      }).then((result) => {
+//        let res = result.data
+//        if (res.status == "0") {
+//          if (res.result.count == 0) {
+//            this.page -= 1
+//            return
+//          } else {
+//            this.list = res.result.list
+//          }
+//        } else {
+//          this.list = []
+//        }
+//      })
+//    }
+    getCategoryList() {
+      this.$api.listAllCategory().then(res => {
+        if (res.code === 0) {
+          this.tags = res.data
         }
+      }).catch(error => {
+        console.log(error)
       })
     }
   }
