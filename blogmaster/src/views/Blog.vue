@@ -74,7 +74,7 @@
                   <div class="message-avatar">
                     <img :src="'https://cdn.v2ex.com/gravatar/' + item.email + '?s=120&d=mm&r=g'" alt="">
                   </div>
-                </router-link>
+                </router-link>account
               </li>
             </div>
           </side-section>

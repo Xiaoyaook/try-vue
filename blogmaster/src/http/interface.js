@@ -54,6 +54,14 @@ export const listAllComment = params => {
     params
   })
 }
+// 登录
+export const doLogin = data => {
+  return axios({
+    url: '/login/do_login',
+    method: 'post',
+    data
+  })
+}
 // 增加一篇文章
 export const addArticle = data => {
   return axios({
@@ -89,5 +97,6 @@ export default {
   listLastestArticle,
   listAllCategory,
   listAllComment,
-  getArticleById
+  getArticleById,
+  doLogin
 }

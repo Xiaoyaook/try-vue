@@ -11,7 +11,7 @@
         <div class="log-text">@doterlin</div>
     </div>
     <div class="log-email">
-        <input type="text" placeholder="Email" :class="'log-input' + (account==''?' log-input-empty':'')" v-model="account"><input type="password" placeholder="Password" :class="'log-input' + (password==''?' log-input-empty':'')"  v-model="password">
+        <input type="text" placeholder="username" :class="'log-input' + (username==''?' log-input-empty':'')" v-model="username"><input type="password" placeholder="Password" :class="'log-input' + (password==''?' log-input-empty':'')"  v-model="password">
         <a href="javascript:;" class="log-btn" @click="login">Login</a>
     </div>
     <Loading v-if="isLoging" marginTop="-30%"></Loading>
@@ -27,7 +27,7 @@ export default {
   data(){
   	return {
       isLoging: false,
-  		account: '',
+  		username: '',
   		password: ''
   	}
   },
@@ -37,31 +37,31 @@ export default {
   methods:{
   	//登录逻辑
   	login(){
-  		if(this.account!='' && this.password!=''){
+  		if(this.username !== '' && this.password !== ''){
   			this.toLogin();
   		}
   	},
   	//登录请求
   	toLogin(){
-  		let password = md5( this.password );
-  		let param = {
-  			account: this.account,
-  			password: password
+  		// let password = md5( this.password ); 暂时不去做md5加密了
+  		let data = {
+  			username: this.username,
+  			password: this.password
   		}
       //设置在登录状态
       this.isLoging = true;
-      axios.get('/api/login', {
-        params: param
-      }).then((result) => {
-        let res = result.data
-        if (res.status == "0") {
-          let expireDays = 1000 * 60 * 60 * 24 * 15;
-          this.setCookie('user', res.result, expireDays);
+  		this.$api.doLogin(data).then(res => {
+        console.log(res)
+  		  if (res.code === 0) {
+//          let expireDays = 1000 * 60 * 60 * 24 * 15; 暂时不返回cookie，全部由后端设置
+//          this.setCookie('user', cookie, expireDays);
           this.isLoging = false;
           this.$router.push('/admin');
         } else {
           this.$router.push('/');
         }
+      }).catch(error => {
+        console.log(error)
       })
   	}
   }

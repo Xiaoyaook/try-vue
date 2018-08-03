@@ -13,7 +13,7 @@
       <div class="main-full">
         <div class="full-content">
           <header>
-            <h3>{{article.title}}</h3>
+            <h1>{{article.title}}</h1>
             <p class="byline">by Xiaoyaook
               <span class="sep">|</span>
               <span class="date">{{article.createBy}}</span>

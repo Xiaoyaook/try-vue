@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   data () {
     return {
@@ -67,22 +66,25 @@ export default {
       tableData:[]
     }
   },
+  mounted () {
+    this.init()
+  },
   methods: {
     init () {
-      var param = {
-        page: this.page,
-        pageSize: this.pageSize,
-      }
-      axios.get("/api/articleList_admin",{
-        params: param //传入到后端的参数集
-      }).then((result)=>{
-        let res = result.data
-        if (res.status == "0"){
-          this.tableData = res.result.list;
-        } else {
-          this.tableData = [];
-        }
-      })
+//      var param = { 之后添加分页功能后，需要传的参数
+//        page: this.page,
+//        pageSize: this.pageSize,
+//      }
+//      axios.get("/api/articleList_admin",{
+//        params: param //传入到后端的参数集
+//      }).then((result)=>{
+//        let res = result.data
+//        if (res.status == "0"){
+//          this.tableData = res.result.list;
+//        } else {
+//          this.tableData = [];
+//        }
+//      })
     },
     handleDelete (index) {
       let articleId = this.tableData[index].articleId;
@@ -111,9 +113,6 @@ export default {
       let articleId = this.tableData[index].articleId;
       this.$router.push({path :'/admin/adminChange', query: { articleId:articleId }})
     }
-  },
-  mounted () {
-    this.init()
   }
 }
 </script>
