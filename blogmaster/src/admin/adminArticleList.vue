@@ -7,28 +7,28 @@
     :default-sort = "{prop: 'date', order: 'descending'}"
     >
     <el-table-column
-      prop="articleId"
+      prop="id"
       label="编号"
       sortable
-      width="150">
+      width="60">
     </el-table-column>
     <el-table-column
       prop="title"
       label="标题"
-      width="90">
+      width="120">
     </el-table-column>
     <el-table-column
-      prop="describtion"
+      prop="summary"
       label="描述"
       width="150">
     </el-table-column>
     <el-table-column
-      prop="tag"
-      label="标签"
-      width="70">
+      prop="categoryName"
+      label="分类"
+      width="100">
     </el-table-column>
     <el-table-column
-      prop="createDate"
+      prop="createBy"
       label="发布时间"
       width="180">
     </el-table-column>
@@ -60,8 +60,8 @@
 export default {
   data () {
     return {
-      pageSize: 10,
-      page: 1,
+//      pageSize: 10,
+//      page: 1,
       // busy: true, //是否还有数据要加载
       tableData:[]
     }
@@ -85,32 +85,56 @@ export default {
 //          this.tableData = [];
 //        }
 //      })
+      this.$api.listAllArticle().then(res => {
+        console.log(res)
+        if (res.code === 0) {
+          this.tableData = res.data
+        }
+      }).catch(error => {
+        console.log(error)
+      })
     },
     handleDelete (index) {
-      let articleId = this.tableData[index].articleId;
+      let articleId = this.tableData[index].id;
       this.$confirm('将删除该文章, 是否继续?', '警告', {
 		    confirmButtonText: '确定',
 		    cancelButtonText: '取消',
 		    type: 'warning'
 		  }).then(()=>{
-        axios.post("/api/articleDelete", {
-          articleId:articleId
-        }).then((response)=>{
-          let res = response.data
-          if (res.status == '0') {
-            this.$message({
+//        axios.post("/api/articleDelete", {
+//          articleId:articleId
+//        }).then((response)=>{
+//          let res = response.data
+//          if (res.status == '0') {
+//            this.$message({
+//              type: 'success',
+//              message: '文章已删除'
+//            })
+//            this.init()
+//          } else {
+//            this.$message.error('未删除成功')
+//          }
+//        })
+          this.$api.deleteArticle({
+            id: articleId
+          }).then(res => {
+            console.log(res)
+            if (res.code === 0) {
+              this.$message({
               type: 'success',
               message: '文章已删除'
-            })
-            this.init()
-          } else {
-            this.$message.error('未删除成功')
-          }
-        })
+              })
+              this.init()
+            } else {
+              this.$message.error('未删除成功')
+            }
+          }).catch(error => {
+            console.log(error)
+          })
       })
     },
     handle (index) {
-      let articleId = this.tableData[index].articleId;
+      let articleId = this.tableData[index].id;
       this.$router.push({path :'/admin/adminChange', query: { articleId:articleId }})
     }
   }

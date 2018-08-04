@@ -65,7 +65,7 @@ export const doLogin = data => {
 // 增加一篇文章
 export const addArticle = data => {
   return axios({
-    url: '/admin/article',
+    url: 'article',
     method: 'post',
     data
   })
@@ -73,14 +73,14 @@ export const addArticle = data => {
 // 删除一篇文章
 export const deleteArticle = params => {
   return axios({
-    url: '/admin/article/' + params,
+    url: 'article/' + params.id,
     method: 'delete'
   })
 }
 // 编辑/更新一篇文章
 export const updateArticle = data => {
   return axios({
-    url: '/admin/article/' + data.id,
+    url: 'article/' + data.id,
     method: 'put',
     data
   })

@@ -70,7 +70,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default{
 		data(){
       return {
@@ -103,14 +102,32 @@ export default{
         } else if (!this.content) {
           this.$message.error('无内容')
         } else {
-          axios.post("/api/articleSub", {
+//          axios.post("/api/articleSub", {
+//            title: this.form.title,
+//            tag: this.form.tag,
+//            describtion: this.form.describtion,
+//            content: this.content
+//          }).then((response)=>{
+//            let res = response.data
+//            if (res.status == '0') {
+//              this.$message({
+//                type: 'success',
+//                message: '文章已发布'
+//              })
+//              this.visible2 = false
+//            } else {
+//              this.$message.error('未发布')
+//            }
+//          })
+          this.$api.addArticle({
             title: this.form.title,
-            tag: this.form.tag,
-            describtion: this.form.describtion,
-            content: this.content
-          }).then((response)=>{
-            let res = response.data
-            if (res.status == '0') {
+            summary: this.form.describtion,
+            content: this.content,
+            isTop: false,
+            pictureUrl: './while.jpg',
+            categoryId: 1
+          }).then(res => {
+            if (res.code === 0) {
               this.$message({
                 type: 'success',
                 message: '文章已发布'
@@ -119,6 +136,8 @@ export default{
             } else {
               this.$message.error('未发布')
             }
+          }).catch(error => {
+            console.log(error)
           })
         }
       },

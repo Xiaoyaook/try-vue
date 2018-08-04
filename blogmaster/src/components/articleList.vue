@@ -2,10 +2,10 @@
 <div class="article-list">
   <article class="block post wysiwyg" v-for="item in list">
     <h2>{{item.title}}</h2>
-    <!--<p class="article-meta">发布于 {{item.createDate}}</p>-->
-    <!--<div class="ui ribbon label red">-->
-      <!--<a href="">{{item.tag}}</a>-->
-    <!--</div>-->
+    <p class="article-meta">发布于 {{item.createBy}}</p>
+    <div class="ui ribbon label red">
+      <a href="">{{item.categoryName}}</a>
+    </div>
     <div class="abstract" v-html="item.summary">
     </div>
     <p class="more"><router-link :to="{ path:'/article/' + item.id }">阅读全文</router-link></p>
