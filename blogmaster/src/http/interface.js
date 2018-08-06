@@ -77,11 +77,33 @@ export const deleteArticle = params => {
     method: 'delete'
   })
 }
+// 获取内容为md源码的文章
+export const getArticleMD = params => {
+  return axios({
+    url: 'article/' + params.id,
+    method: 'get'
+  })
+}
 // 编辑/更新一篇文章
 export const updateArticle = data => {
   return axios({
     url: 'article/' + data.id,
     method: 'put',
+    data
+  })
+}
+// 删除一个分类
+export const deleteCategory = data => {
+  return axios({
+    url: 'category/' + data.id,
+    method: 'delete'
+  })
+}
+// 增加一个分类
+export const addCategory = data => {
+  return axios({
+    url: 'category',
+    method: 'post',
     data
   })
 }
@@ -98,5 +120,8 @@ export default {
   listAllCategory,
   listAllComment,
   getArticleById,
-  doLogin
+  doLogin,
+  deleteCategory,
+  addCategory,
+  getArticleMD
 }

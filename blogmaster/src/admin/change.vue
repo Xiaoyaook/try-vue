@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   data () {
     return {
       value: '',
       content: '',
+      article: {},
       visible2: false,
     }
   },
@@ -36,33 +36,56 @@ export default {
     this.getValue()
   },
   methods: {
+    // 这里我们不需要渲染成HTML的内容，直接取md源码,故取value
     getContent (value,render) {
-      this.content = render
+      this.content = value
     },
     getValue () {
       let articleId = this.$route.query.articleId
       let param = {
-        articleId: articleId
+        id: articleId
       }
-      axios.get("/api/articleDetial", {
-        params: param
-      }).then((result) => {
-        let res = result.data
-        if (res.status == "0") {
-          this.value = res.result.content
-        } else {
-          this.value = ''
+//      axios.get("/api/articleDetial", {
+//        params: param
+//      }).then((result) => {
+//        let res = result.data
+//        if (res.status == "0") {
+//          this.value = res.result.content
+//        } else {
+//          this.value = ''
+//        }
+//      })
+      this.$api.getArticleMD(param).then(res => {
+        if (res.code === 0) {
+          this.article = res.data
+          this.value = res.data.content
         }
+      }).catch(error => {
+        console.log(error)
       })
     },
     modifyArticle () {
-      let articleId = this.$route.query.articleId
-      axios.post("/api/articleModify", {
-        articleId: articleId,
-        content: this.content
-      }).then((response)=>{
-        let res = response.data
-        if (res.status == '0') {
+//      let articleId = this.$route.query.articleId
+//      axios.post("/api/articleModify", {
+//        articleId: articleId,
+//        content: this.content
+//      }).then((response)=>{
+//        let res = response.data
+//        if (res.status == '0') {
+//          this.$message({
+//            type: 'success',
+//            message: '文章已修改'
+//          })
+//          this.visible2 = false
+//        } else {
+//          this.$message.error('未修改')
+//        }
+//      })
+      this.article.content = this.content
+      // article 携带Date类型的createBy会报错，故直接删去
+      delete this.article.createBy
+      this.$api.updateArticle(this.article).then(res => {
+        if (res.code === 0) {
           this.$message({
             type: 'success',
             message: '文章已修改'
@@ -71,6 +94,8 @@ export default {
         } else {
           this.$message.error('未修改')
         }
+      }).catch(error => {
+        console.log(error)
       })
     }
   }

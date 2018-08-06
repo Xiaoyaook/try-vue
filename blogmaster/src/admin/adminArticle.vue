@@ -27,8 +27,8 @@
         <el-input v-model="form.title" placeholder="请输入标题"></el-input>
       </el-form-item>
       <el-form-item label="文章标签" :label-width="formLabelWidth">
-        <el-select v-model="form.tag" placeholder="请选择活动区域">
-          <el-option :key="item.name" :label="item.name" :value="item.name" v-for="item in tags"></el-option>
+        <el-select v-model="form.tagId" placeholder="请选择活动区域">
+          <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in tags"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="文章描述" :label-width="formLabelWidth">
@@ -47,7 +47,7 @@
       v-for="tag in tags"
       :closable="true"
       :close-transition="false"
-      @close="handleClose(tag.name)"
+      @close="handleClose(tag.id)"
     >
     {{tag.name}}
     </el-tag>
@@ -61,7 +61,7 @@
       @blur="handleInputConfirm"
     >
     </el-input>
-    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New 分类</el-button>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="dialogTableVisible2 = false">确 定</el-button>
     </div>
@@ -83,7 +83,7 @@ export default{
         inputVisible: false,
         form: {
           title: '',
-          tag: '',
+          tagId: 0,
           describtion: '',
         },
         formLabelWidth: '120px'
@@ -93,8 +93,9 @@ export default{
       this.getTags()
     },
 		methods: {
+		  // 这里我们不需要渲染成HTML的内容，直接取md源码,故取value
       getContent (value,render) {
-        this.content = render
+        this.content = value
       },
       subArticle () {
         if (!this.form.title) {
@@ -125,7 +126,7 @@ export default{
             content: this.content,
             isTop: false,
             pictureUrl: './while.jpg',
-            categoryId: 1
+            categoryId: this.form.tagId
           }).then(res => {
             if (res.code === 0) {
               this.$message({
@@ -142,29 +143,52 @@ export default{
         }
       },
       getTags () {
-        axios.get("/api/tags").then((result)=>{
-          let res = result.data
-          if (res.status == "0"){
-            this.tags = res.result.list;
+//        axios.get("/api/tags").then((result)=>{
+//          let res = result.data
+//          if (res.status == "0"){
+//            this.tags = res.result.list;
+//          } else {
+//            this.tags = [];
+//          }
+//        })
+        this.$api.listAllCategory().then(res => {
+          if (res.code === 0) {
+            this.tags = res.data
           } else {
-            this.tags = [];
+            this.tags = []
           }
+        }).catch(error => {
+          console.log(error)
         })
       },
       handleClose(tag) {
         this.tags.splice(this.tags.indexOf(tag.name), 1);
-        axios.post("/api/tagsDelete", {
-          tagDel: tag
-        }).then((response)=>{
-          let res = response.data
-          if (res.status == '0') {
+//        axios.post("/api/tagsDelete", {
+//          tagDel: tag
+//        }).then((response)=>{
+//          let res = response.data
+//          if (res.status == '0') {
+//            this.$message({
+//              type: 'success',
+//              message: '标签已删除'
+//            })
+//          } else {
+//            this.$message.error('未删除')
+//          }
+//        })
+        this.$api.deleteCategory({
+          id: tag
+        }).then(res => {
+          if (res.code === 0) {
             this.$message({
               type: 'success',
-              message: '标签已删除'
+              message: '分类已删除'
             })
           } else {
             this.$message.error('未删除')
           }
+        }).catch(error => {
+          console.log(error)
         })
       },
       showInput() {
@@ -177,18 +201,32 @@ export default{
         let inputValue = this.inputValue;
         if (inputValue) {
           this.tags.push({name:inputValue});
-          axios.post("/api/tagsAdd", {
-            tagAdd: inputValue
-          }).then((response)=>{
-            let res = response.data
-            if (res.status == '0') {
+//          axios.post("/api/tagsAdd", {
+//            tagAdd: inputValue
+//          }).then((response)=>{
+//            let res = response.data
+//            if (res.status == '0') {
+//              this.$message({
+//                type: 'success',
+//                message: '标签已添加'
+//              })
+//            } else {
+//              this.$message.error('未添加')
+//            }
+//          })
+          this.$api.addCategory({
+            name: inputValue
+          }).then(res => {
+            if (res.code === 0) {
               this.$message({
                 type: 'success',
-                message: '标签已添加'
+                message: '分类已添加'
               })
             } else {
               this.$message.error('未添加')
             }
+          }).catch(error => {
+            console.log(error)
           })
         }
         this.inputVisible = false;

@@ -7,6 +7,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import mavonEditor from 'mavon-editor'
 import api from './http/index'
+import hljs from 'highlight.js';
 import 'mavon-editor/dist/css/index.css'
 // 全局引入css文件
 import '@/assets/css/container.css'
@@ -14,9 +15,17 @@ import '@/assets/css/header.css'
 import '@/assets/css/article.css'
 import '@/assets/css/side.css'
 import '@/assets/css/blog.css'
-
+import 'highlight.js/styles/atelier-forest-light.css'
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
+
+// 使用 Vue 的自定义指令，可以在内容渲染时才搜索对应内容中的 <pre><code> 标签，控制更方便
+Vue.directive('hljs', el => {
+  let blocks = el.querySelectorAll('pre code');
+  Array.prototype.forEach.call(blocks, hljs.highlightBlock);
+});
+
+
 
 // 可以直接在 Vue 原型上调用 $api
 Vue.use(api)

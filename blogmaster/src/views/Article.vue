@@ -19,7 +19,7 @@
               <span class="date">{{article.createBy}}</span>
             </p>
           </header>
-          <div class="post-content wysiwyg" v-html="article.content">
+          <div class="post-content wysiwyg" v-html="article.content" v-hljs>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@ body {
 
 .full-content h2 {
   margin: 0 20px 0 0;
-  font-size: 40px;
+  /*font-size: 40px;*/
   font-weight: 500;
   line-height: 1;
   letter-spacing: -.03em;
