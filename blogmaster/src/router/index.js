@@ -20,6 +20,7 @@ const adminArticle = resolve => require(['@/admin/adminArticle'], resolve)
 const change = resolve => require(['@/admin/change'], resolve)
 const adminArticleList = resolve => require(['@/admin/adminArticleList'], resolve)
 // const login = resolve => require(['@/admin/login'], resolve)
+const dataStatistics = resolve => require(['@/admin/dataStatistics'], resolve)
 
 Vue.use(Router)
 
@@ -62,6 +63,7 @@ export default new Router({
             { path: 'adminArticle', component: adminArticle, name: 'adminArticle'},
             { path: 'adminChange', component: change, name: 'adminChange'},
             { path: 'adminArticleList', component: adminArticleList, name: 'adminArticleList'},
+            { path: 'dataStatistics', component: dataStatistics, name: 'dataStatistics'}
         ]
     },
     {

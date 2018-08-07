@@ -9,12 +9,12 @@
       <el-menu-item index="2-2">选项2</el-menu-item>
       <el-menu-item index="2-3">选项3</el-menu-item>
     </el-submenu>
-    <el-menu-item index="3"><a href="https://www.baidu.com" target="_blank">baiu</a></el-menu-item>
+    <el-menu-item index="3"><a href="https://www.google.com/" target="_blank">Google</a></el-menu-item>
     </el-menu>
     <el-breadcrumb separator="/" style="padding: 20px 20px 20px 20px;">
       <el-breadcrumb-item :to="{ path: '/admin' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/admin/adminArticleList' }">xxx</el-breadcrumb-item>
-      <el-breadcrumb-item>xxx</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/admin/adminArticleList' }">文章列表</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/admin/dataStatistics' }">数据统计</el-breadcrumb-item>
       <el-breadcrumb-item>xxx</el-breadcrumb-item>
     </el-breadcrumb>
   </el-row>
@@ -27,6 +27,10 @@
         <el-menu-item index="/admin/adminArticle">
           <i class="el-icon-setting"></i>
           <span slot="title">新建文章</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/dataStatistics">
+          <i class="el-icon-setting"></i>
+          <span slot="title">数据统计</span>
         </el-menu-item>
       </el-menu>
       <el-col :span="24" class="row-bg">

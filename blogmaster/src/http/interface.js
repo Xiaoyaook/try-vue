@@ -107,6 +107,14 @@ export const addCategory = data => {
     data
   })
 }
+// 这个月每天syslog数量
+export const getSysLogThisMonth = params => {
+  return axios({
+    url: 'dataview/thismonth/syslog',
+    method: 'get',
+    params
+  })
+}
 
 // 默认全部倒出
 // 根绝需要进行
@@ -123,5 +131,6 @@ export default {
   doLogin,
   deleteCategory,
   addCategory,
-  getArticleMD
+  getArticleMD,
+  getSysLogThisMonth
 }
