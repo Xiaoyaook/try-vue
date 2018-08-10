@@ -87,9 +87,14 @@ export default {
   },
   methods: {
     getMessages () {
-      axios.get("/api/messageList").then((result)=>{
-        let res = result.data
-        this.messagesList = res.result
+      this.$api.listAllComment({
+        pageNum: 1 // 这里先写死，获取八条最新的留言
+      }).then(res => {
+        if (res.code === 0) {
+          this.messagesList = res.data
+        }
+      }).catch(error => {
+        console.log(error)
       })
     },
     submit () {
@@ -115,18 +120,19 @@ export default {
       this.summitFlag = true
       localStorage.setItem('e-mail', this.email)
       localStorage.setItem('name', this.name)
-      axios.post("/api/messageSub", {
-        "name": this.name,
-        "email": this.email,
-        "content": this.message
-      }).then((result)=>{
-          let res = result.data
-          if (res.status == "0") {
-            this.status = '留言成功喽'
-            this.getMessages()
-          } else {
-            this.status = '蜜汁错误'
-          }
+      this.$api.addComment({
+        name: this.name,
+        email: this.email,
+        content: this.message
+      }).then(res => {
+        if (res.code === 0) {
+          this.status = '留言成功喽'
+          this.getMessages()
+        } else {
+          this.status = '蜜汁错误'
+        }
+      }).catch(error => {
+        console.log(error)
       })
     }
   }

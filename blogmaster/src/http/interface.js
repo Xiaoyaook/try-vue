@@ -8,8 +8,8 @@ import axios from './api' // 导出 api
 
 // 单独导出
 
-// 获取所有文章列表
-export const listAllArticle = params => {
+// 获取文章列表，通过页码，否则返回全部文章
+export const listArticle = params => {
   return axios({
     url: '/api/article/list',
     method: 'get',
@@ -40,10 +40,11 @@ export const listAllCategory = params => {
   })
 }
 // 获取某一个分类下的所有文章
-export const listAllArticleByCategory = params => {
+export const listArticleByCategory = params => {
   return axios({
-    url: '/api/article/list/category/' + params,
-    method: 'get'
+    url: '/api/article/list/category/' + params.id,
+    method: 'get',
+    params
   })
 }
 // 获取所有留言
@@ -52,6 +53,14 @@ export const listAllComment = params => {
     url: '/api/comment/list',
     method: 'get',
     params
+  })
+}
+// 添加一条留言
+export const addComment = data => {
+  return axios({
+    url: '/api/comment',
+    method: 'post',
+    data
   })
 }
 // 登录
@@ -115,12 +124,36 @@ export const getSysLogThisMonth = params => {
     params
   })
 }
+// 这个月每天syslog数量
+export const getSysViewThisMonth = params => {
+  return axios({
+    url: 'dataview/thismonth/sysview',
+    method: 'get',
+    params
+  })
+}
+// sysView详情表
+export const getSysViewTable = params => {
+  return axios({
+    url: '/sys/view',
+    method: 'get',
+    params
+  })
+}
+// sysLog详情表
+export const getSysLogTable = params => {
+  return axios({
+    url: '/sys/log',
+    method: 'get',
+    params
+  })
+}
 
 // 默认全部倒出
 // 根绝需要进行
 export default {
-  listAllArticle,
-  listAllArticleByCategory,
+  listArticle,
+  listArticleByCategory,
   addArticle,
   deleteArticle,
   updateArticle,
@@ -132,5 +165,9 @@ export default {
   deleteCategory,
   addCategory,
   getArticleMD,
-  getSysLogThisMonth
+  getSysLogThisMonth,
+  getSysViewThisMonth,
+  addComment,
+  getSysViewTable,
+  getSysLogTable
 }

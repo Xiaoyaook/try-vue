@@ -8,35 +8,41 @@
 export default {
   data () {
     return {
-      moment: ''
+      moment: '',
+      originalYear: 2018,
+      originalMonth: 7, // 注意有坑，js的月份一月是0
+      originalDate: 0,
+      originalHour: 0,
+      originalMinute: 0,
+      originalSecond: 0
     }
   },
-  props: {
-    originalYear: {
-      type: Number,
-      default: 2017
-    },
-    originalMonth: {
-      type: Number,
-      default: 7
-    },
-    originalDate: {
-      type: Number,
-      default: 1
-    },
-    originalHour: {
-      type: Number,
-      default: 0
-    },
-    originalMinute: {
-      type: Number,
-      default: 0
-    },
-    originalSecond: {
-      type: Number,
-      default: 0
-    }
-  },
+//  props: {
+//    originalYear: {
+//      type: Number,
+//      default: 2018
+//    },
+//    originalMonth: {
+//      type: Number,
+//      default: 7
+//    },
+//    originalDate: {
+//      type: Number,
+//      default: 26
+//    },
+//    originalHour: {
+//      type: Number,
+//      default: 0
+//    },
+//    originalMinute: {
+//      type: Number,
+//      default: 0
+//    },
+//    originalSecond: {
+//      type: Number,
+//      default: 0
+//    }
+//  },
   mounted () {
     this.runTime ()
   },
@@ -53,7 +59,7 @@ export default {
         let today = new Date()
         let todayYear = today.getFullYear()
         let todayMonth = today.getMonth()
-        let todayDate = today.getDate()
+        let todayDate = today.getDay()
         let todayHour = today.getHours()
         let todayMinute = today.getMinutes()
         let todaySecond = today.getSeconds()

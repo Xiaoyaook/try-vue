@@ -60,8 +60,7 @@
 export default {
   data () {
     return {
-//      pageSize: 10,
-//      page: 1,
+      page: 1,
       // busy: true, //是否还有数据要加载
       tableData:[]
     }
@@ -85,8 +84,7 @@ export default {
 //          this.tableData = [];
 //        }
 //      })
-      this.$api.listAllArticle().then(res => {
-        console.log(res)
+      this.$api.listArticle().then(res => {
         if (res.code === 0) {
           this.tableData = res.data
         }
@@ -101,20 +99,6 @@ export default {
 		    cancelButtonText: '取消',
 		    type: 'warning'
 		  }).then(()=>{
-//        axios.post("/api/articleDelete", {
-//          articleId:articleId
-//        }).then((response)=>{
-//          let res = response.data
-//          if (res.status == '0') {
-//            this.$message({
-//              type: 'success',
-//              message: '文章已删除'
-//            })
-//            this.init()
-//          } else {
-//            this.$message.error('未删除成功')
-//          }
-//        })
           this.$api.deleteArticle({
             id: articleId
           }).then(res => {

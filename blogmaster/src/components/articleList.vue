@@ -19,64 +19,62 @@
 
 <script>
 export default {
-//  props:[
-//    'tagSelect'
-//  ],
+  props:[
+    'tagSelect'
+  ],
   data () {
     return {
-      list: []
-//      page: 1,
-//      pageSize: 10,
+      list: [],
+      page: 1,
 //      count: 0
     }
   },
-//  watch: {
-//    tagSelect () {
-//      this.getTagList()
-//    }
-//  },
+  watch: {
+    tagSelect () {
+      this.getArticleListByCategory()
+    }
+  },
   mounted () {
-    this.getLatestArticleList()
+    this.getArticleList()
   },
   methods: {
-    getLatestArticleList () {
-      this.$api.listLastestArticle().then(res => {
-        console.log(res)
+    getArticleListByCategory () {
+      this.$api.listArticleByCategory({
+        id: this.tagSelect,
+        pageNum: this.page
+      }).then(res => {
         if (res.code === 0) {
+          if (res.data === {}) { // 数据为空，回上一页
+            this.page -= 1
+            return
+          }
           this.list = res.data
         }
       }).catch(error => {
         console.log(error)
       })
     },
-//    getTagList () {
-//      var param = {
-//        page: this.page,
-//        pageSize: this.pageSize,
-//        tag: this.tagSelect
-//      }
-//      axios.get("/api/tagsDetial", {
-//        params: param
-//      }).then((result)=>{
-//        let res = result.data
-//        if (res.status == "0") {
-//          if (res.result.count == 0) {
-//            this.page -= 1
-//            return
-//          } else {
-//            this.list = res.result.list
-//          }
-//        } else {
-//          this.list = []
-//        }
-//      })
-//    },
+    getArticleList () {
+      this.$api.listArticle({
+        pageNum: this.page
+      }).then(res => {
+        if (res.code === 0) {
+          if (res.data === {}) { // 数据为空，回上一页
+            this.page -= 1
+            return
+          }
+          this.list = res.data
+        }
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     go () {
       if (this.page<1) {
         this.page = 1
         return
       } else {
-        this.getlist()
+        this.getArticleList()
       }
     }
   }

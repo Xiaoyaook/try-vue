@@ -1,24 +1,16 @@
 # blog
 
-> A Vue.js project
+Vue + Vue-router + Axios + Element-UI + mavon-editor + v-charts
 
-## Build Setup
 
-``` bash
-# install dependencies
-npm install
+[博客首页]: ./photos/博客首页.png "博客首页"
 
-# serve with hot reload at localhost:8080
-npm run dev
+![数据可视化](./photos/数据可视化.png "数据可视化")
 
-# build for production with minification
-npm run build
+![需求分析](./photos/需求分析.png "需求分析")
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+在http包中对Axios二次封装。
 
 文章代码高亮，通过引入highlight.js依赖实现，同时我们将其封装成自定义指令：
 ```vue

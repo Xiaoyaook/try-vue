@@ -11,7 +11,7 @@
     <div class="container content">
       <div class="list">
         <div class="main">
-          <article-list></article-list>
+          <article-list :tagSelect="id"></article-list>
         </div>
         <div class="side">
           <side-section>
@@ -53,7 +53,7 @@
                 </el-popover>
                 <a data-balloon="简历" href="javascript:;" rel="nofollow" class="icon" v-popover:resume><i class="fa fa-address-card-o" style="background-color: #80b953"></i></a>
               </div>
-            </div>JhonXY
+            </div>
           </side-section>
           <side-section>
             <div slot="sidecontent">
@@ -74,15 +74,15 @@
                   <div class="message-avatar">
                     <img :src="'https://cdn.v2ex.com/gravatar/' + item.email + '?s=120&d=mm&r=g'" alt="">
                   </div>
-                </router-link>account
+                </router-link>
               </li>
             </div>
           </side-section>
           <side-section>
             <div slot="sidecontent">
-              <li class="message-title">标签</li>
+              <li class="message-title">分类</li>
               <div class="tags">
-                <span class="tags-item" v-for="item in tags"><a href="#" @click="getOne(item.tag)">{{item.name}}</a></span>
+                <span class="tags-item" v-for="item in tags"><a href="#" @click="getOne(item.id)">{{item.name}}</a></span>
               </div>
             </div>
           </side-section>
@@ -115,13 +115,12 @@ export default {
     return {
       tags: [],
       commentsList: [],
-      tag: '',
-//      limit: 8 // 用于限制首页显示留言量
+      id: 1, // 分类id
+      tag: ''
     }
   },
   mounted() {
     this.getComments()
-    this.getCategoryList()
   },
   methods: {
     // 利用监听获取子组件数据，并传给另外的子组件
@@ -129,56 +128,17 @@ export default {
       this.tags = msg
     },
     shareOne(msg) {
-      this.tag = msg
+      this.id = msg
     },
     getOne(msg) {
-      this.tag = msg
+      this.id = msg
     },
     getComments () {
-      this.$api.listAllComment().then(res => {
+      this.$api.listAllComment({
+        pageNum: 1 // 这里先写死，获取八条最新的留言
+      }).then(res => {
         if (res.code === 0) {
           this.commentsList = res.data
-        }
-      }).catch(error => {
-        console.log(error)
-      })
-    },
-//    getMessages() {
-//      axios.get("/api/messageList", {
-//        params: {
-//          limit: this.limit
-//        }
-//      }).then((result) => {
-//        let res = result.data
-//        this.messagesList = res.result
-//      })
-//    },
-//    getTagList() {
-//      var param = {
-//        page: this.page,
-//        pageSize: this.pageSize,
-//        tag: this.tagSelect
-//      }
-//      axios.get("/api/tagsDetial", {
-//        params: param
-//      }).then((result) => {
-//        let res = result.data
-//        if (res.status == "0") {
-//          if (res.result.count == 0) {
-//            this.page -= 1
-//            return
-//          } else {
-//            this.list = res.result.list
-//          }
-//        } else {
-//          this.list = []
-//        }
-//      })
-//    }
-    getCategoryList() {
-      this.$api.listAllCategory().then(res => {
-        if (res.code === 0) {
-          this.tags = res.data
         }
       }).catch(error => {
         console.log(error)

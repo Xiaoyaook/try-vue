@@ -9,7 +9,7 @@
             <a target="_blank"><i class="fa fa-cog"></i>分类</a>
             <ul class="collapse-menum">
               <li class="menu-item" v-for="item in tags">
-                <a href="javascript:;" @click="getOne(item.tag)">{{item.tag}}</a>
+                <a href="javascript:;" @click="getOne(item.id)">{{item.name}}</a>
               </li>
             </ul>
           </li>
@@ -35,19 +35,20 @@ export default {
   },
   methods: {
     getTags () {
-      axios.get("/api/articleTags").then((result)=>{
-        let res = result.data
-        if (res.status == '0') {
-          this.tags = res.result
+      this.$api.listAllCategory().then(res => {
+        if (res.code === 0) {
+          this.tags = res.data
           this.tags = unique(this.tags)
           this.$emit('shareTags', this.tags)
         } else {
           this.tags = ["未获取到数据"]
         }
+      }).catch(error => {
+        console.log(error)
       })
     },
-    getOne (tag) {
-      this.$emit('shareOne', tag)
+    getOne (id) {
+      this.$emit('shareOne', id)
       this.$router.push({path:'/blog'})
     }
   },
