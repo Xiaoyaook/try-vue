@@ -34,7 +34,7 @@
       <el-form-item label="文章描述" :label-width="formLabelWidth">
         <el-input v-model="form.describtion" auto-complete="off"></el-input>
       </el-form-item>
-      </el-form-item>
+
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogTableVisible = false">取 消</el-button>
@@ -103,23 +103,6 @@ export default{
         } else if (!this.content) {
           this.$message.error('无内容')
         } else {
-//          axios.post("/api/articleSub", {
-//            title: this.form.title,
-//            tag: this.form.tag,
-//            describtion: this.form.describtion,
-//            content: this.content
-//          }).then((response)=>{
-//            let res = response.data
-//            if (res.status == '0') {
-//              this.$message({
-//                type: 'success',
-//                message: '文章已发布'
-//              })
-//              this.visible2 = false
-//            } else {
-//              this.$message.error('未发布')
-//            }
-//          })
           this.$api.addArticle({
             title: this.form.title,
             summary: this.form.describtion,
@@ -143,14 +126,6 @@ export default{
         }
       },
       getTags () {
-//        axios.get("/api/tags").then((result)=>{
-//          let res = result.data
-//          if (res.status == "0"){
-//            this.tags = res.result.list;
-//          } else {
-//            this.tags = [];
-//          }
-//        })
         this.$api.listAllCategory().then(res => {
           if (res.code === 0) {
             this.tags = res.data
@@ -163,19 +138,6 @@ export default{
       },
       handleClose(tag) {
         this.tags.splice(this.tags.indexOf(tag.name), 1);
-//        axios.post("/api/tagsDelete", {
-//          tagDel: tag
-//        }).then((response)=>{
-//          let res = response.data
-//          if (res.status == '0') {
-//            this.$message({
-//              type: 'success',
-//              message: '标签已删除'
-//            })
-//          } else {
-//            this.$message.error('未删除')
-//          }
-//        })
         this.$api.deleteCategory({
           id: tag
         }).then(res => {
@@ -200,20 +162,9 @@ export default{
       handleInputConfirm() {
         let inputValue = this.inputValue;
         if (inputValue) {
-          this.tags.push({name:inputValue});
-//          axios.post("/api/tagsAdd", {
-//            tagAdd: inputValue
-//          }).then((response)=>{
-//            let res = response.data
-//            if (res.status == '0') {
-//              this.$message({
-//                type: 'success',
-//                message: '标签已添加'
-//              })
-//            } else {
-//              this.$message.error('未添加')
-//            }
-//          })
+          // 18-9-24 bug修改,下面这句在添加tag只加了名字，但没有加id，故不刷新页面直接添加文章会报错
+          // this.tags.push({name:inputValue});
+          // 修改：在ajax后重新调用this.getTags();
           this.$api.addCategory({
             name: inputValue
           }).then(res => {
@@ -229,6 +180,7 @@ export default{
             console.log(error)
           })
         }
+        this.getTags();
         this.inputVisible = false;
         this.inputValue = '';
       }

@@ -1,12 +1,14 @@
 # blog
 
-Vue + Vue-router + Axios + Element-UI + mavon-editor + v-charts
+项目技术：Vue + Vue-router + Axios + Element-UI + mavon-editor + v-charts
 
+博客首页：
+![博客首页](./photos/博客首页.png "博客首页")
 
-[博客首页]: ./photos/博客首页.png "博客首页"
-
+数据可视化：
 ![数据可视化](./photos/数据可视化.png "数据可视化")
 
+需求分析：
 ![需求分析](./photos/需求分析.png "需求分析")
 
 
@@ -29,3 +31,5 @@ Vue.directive('hljs', el => {
 `import 'highlight.js/styles/atelier-forest-light.css'`
 
 代码样式的css可在[highlight.js/src/styles/](https://github.com/highlightjs/highlight.js/tree/master/src/styles)找到
+
+9-24 修改新建分类后，不刷新，添加文章失败的bug

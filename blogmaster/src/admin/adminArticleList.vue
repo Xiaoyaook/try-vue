@@ -70,20 +70,6 @@ export default {
   },
   methods: {
     init () {
-//      var param = { 之后添加分页功能后，需要传的参数
-//        page: this.page,
-//        pageSize: this.pageSize,
-//      }
-//      axios.get("/api/articleList_admin",{
-//        params: param //传入到后端的参数集
-//      }).then((result)=>{
-//        let res = result.data
-//        if (res.status == "0"){
-//          this.tableData = res.result.list;
-//        } else {
-//          this.tableData = [];
-//        }
-//      })
       this.$api.listArticle().then(res => {
         if (res.code === 0) {
           this.tableData = res.data
